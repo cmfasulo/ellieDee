@@ -1,0 +1,133 @@
+.connectionData {
+	width: 40%;
+	height: 5vh;
+}
+
+.resetData {
+	width: 50%;
+	height: 5vh;
+}
+
+#connectionTable {
+	table-layout: fixed;
+	max-height: 200px;
+}
+
+	#connectionTable div {
+		width: 30%;
+		position: relative;
+	}
+
+	#connectionIndicator {
+		background-color: red;
+}
+
+#ledTable {
+	background-color: black;
+	padding: 20px 20px 0 20px;
+	margin-bottom: 0;
+}
+
+	#ledTable td {
+		width: 8.33%;
+		position: relative;
+	}
+
+	#ledTable td:after {
+	  content: '';
+	  display: block;
+	  margin-top: 100%;
+	}
+
+	#ledTable button {
+		border-radius: 0;
+	}
+
+#logoRow {
+	height: 5vh;
+	padding: 0;
+	margin: 0;
+	background-color: black;
+	text-align: center;
+}
+
+#logoBackground {
+	display: inline-block;
+	background-color: red;
+	padding: 0;
+	margin: 1.5vh;
+}
+
+#logo {
+	margin: auto;
+	height: 2vh;
+	width: auto;
+}
+
+#colorPickArea {
+	display: inline-block;
+	width: auto;
+	border: solid black 2px;
+	padding: 5px;
+}
+
+#picker {
+	display: inline-block;
+	width: 400px;
+	height: 200px;
+}
+
+#slide {
+	display: inline-block;
+	width: 50px;
+	height: 200px;
+} 
+
+#currentColor {
+/*	background-color: #000000;*/
+	border: solid black 2px;
+	border-radius: 50px;
+	width: 15vh;
+}
+
+table {
+	width: 100%;
+	margin: 10px auto;
+}
+
+td {
+	text-align: center;
+}
+
+td .content {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+button {
+	display: block;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	font-size: 100%;
+	font-weight: bold;
+	font-variant: small-caps;
+	border-radius: 8px;
+	text-shadow:0px 2px 0px #ffffff;
+}
+
+img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+	padding: 0;
+}
+
+div {
+	margin-left: auto;
+	margin-right: auto;
+}
