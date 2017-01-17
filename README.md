@@ -13,4 +13,4 @@ Arduino-powered 12 x 12 LED matrix with web/mobile app UI controller.<br>
   </li>
 </ul>
 
-<img src="resources/images/ellieDee.jpg" style="margin: 20px auto"/>
+<img src="assets/img/ellieDee.jpg" style="margin: 20px auto"/>
