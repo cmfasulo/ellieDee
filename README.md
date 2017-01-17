@@ -12,3 +12,5 @@ Arduino-powered 12 x 12 LED matrix with web/mobile app UI controller.<br>
     <strong>TO-DO:</strong> refactor with jQuery and add back-end/IoT integration with newfound full-stack skills thanks to the LEARN bootcamp.
   </li>
 </ul>
+
+<img src="resources/images/ellieDee.jpg" style="margin: 20px auto"/>
