@@ -1,5 +1,5 @@
 # ellieDee
-Arduino-powered 12 x 12 LED matrix with web/mobile app UI controller. Current version communicated via Bluetooth, future update will include IoT integration.<br>
+Arduino-powered 12 x 12 LED matrix with web/mobile app UI controller. Current version communicates via Bluetooth, future update will include IoT integration.<br>
 
 <ul>
   <li>
