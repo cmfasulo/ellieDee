@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @drawing.name %>
+</p>
+
+<p>
+  <strong>Leds:</strong>
+  <%= @drawing.leds %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @drawing.user %>
+</p>
+
+<%= link_to 'Edit', edit_drawing_path(@drawing) %> |
+<%= link_to 'Back', drawings_path %>
