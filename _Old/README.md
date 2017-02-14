@@ -9,8 +9,8 @@ Arduino-powered 12 x 12 LED matrix with web/mobile app UI controller. Current ve
     <strong>November 2016:</strong> Created JavaScript web app after attending LEARN Academy Jumpstart Weekend (three day crash course in HTML, CSS, JS basics for anyone looking to get a taste of their full bootcamp program).
   </li>
   <li>
-    <strong>February 2017:</strong> Started rewriting app as full-stack Ruby on Rails application to begin IoT integration. Work in progress.
+    <strong>TO-DO:</strong> refactor with jQuery and add back-end/IoT integration with newfound skills courtesy of the LEARN full-stack bootcamp.
   </li>
 </ul>
 
-<img src="app/assets/images/ellieDee.jpg" style="margin: 20px auto"/>
+<img src="assets/img/ellieDee.jpg" style="margin: 20px auto"/>
