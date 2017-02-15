@@ -38,6 +38,9 @@ gem 'jbuilder', '~> 2.5'
 # Devise gem for user authentication
 gem 'devise'
 
+# Font Awesome Icons
+gem 'font-awesome-rails', '~> 4.7', '>= 4.7.0.1'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri

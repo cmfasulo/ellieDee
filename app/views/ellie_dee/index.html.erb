@@ -1,0 +1,73 @@
+<div class="row">
+    <div class="col-lg-6 pull-right">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="ellieDee">
+    				<table id="ledMatrix">
+    				</table>
+    				<div id="logoRow"><div id="logoBackground"><img id="logo" src="<%= asset_path('brickh3dTransparent.png') %>"></></div>
+    				</div>
+    			</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-paint-brush"></i> Drawing Tools</h3>
+            </div>
+            <div class="panel-body" id="dashboard">
+                <div>
+                    <label for="currentColor">Current Color:</label><br>
+                    <input type="color" id="currentColor"/><br>
+                </div>
+                <div>
+                    <label for="colorPalette">Saved Colors:</label><br>
+    				<table id="colorPalette">
+    					<tr>
+    						<td id="palette1"></td>
+    						<td id="palette2"></td>
+    						<td id="palette3"></td>
+    					</tr>
+    					<tr>
+    						<td id="palette4"></td>
+    						<td id="palette5"></td>
+    						<td id="palette6"></td>
+    					</tr>
+    				</table>
+                </div>
+                <button id="ledOff">Turn Off Single LED</button>
+                <button id="reset">Reset Drawing</button>
+                <button id="save">Save Drawing</button>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bookmark"></i> My Saved Drawings</h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th colspan="1"></th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <% @drawings.each do |drawing| %>
+                      <tr>
+                        <td><%= drawing.name %></td>
+                        <td><%= link_to 'Show', drawing %></td>
+                        <td><%= link_to 'Edit', edit_drawing_path(drawing) %></td>
+                        <td><%= link_to 'Destroy', drawing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.row -->
