@@ -1,8 +1,38 @@
 $(document).ready(function() {
   buildMatrix();
+
+  $(".led").on("click", function() {
+    var thisLed = this;
+    var ledIndex = "leds[" + this.id.toString() + "]";
+    // var drawing = "drawing";
+    // var drawingObj = "{ " + ledIndex.toString() + ": " + $("#currentColor").val() + " }";
+    var jsonData = { leds: "['test', 'test']" };
+    // console.log("EllieDeeObj: " + JSON.stringify(drawingObj));
+
+    // jsonData[ledIndex] = $("#currentColor").val();
+    // jsonData[drawing] =  JSON.parse(drawingObj);
+    console.log("JSON Data: " + JSON.stringify(jsonData));
+
+    $.ajax({
+      dataType: 'json',
+      url: '/drawings/' + $("#ellieDeeId").val().toString() + '.json',
+      method: 'PUT',
+      contentType: "application/json",
+      data: JSON.stringify(jsonData),
+      success: function(data) {
+        console.log("EllieDee Successfully Updated: " + JSON.stringify(data));
+        console.log("This LED: " + data.leds[143]);
+        $(this).css('background-color', data.leds[parseInt(thisLed.id)].toString());
+      },
+      error: function(jqXHR, textStatus, error) {
+        console.log("EllieDee Failed to Update: " + error);
+      }
+    });
+
+  });
 });
 
-//Creates a function that generates a really long string with entire table HTML
+//Creates a function that generates a really long string with entire table HTML and sends AJAX call to reset LED array in database
 function buildMatrix() {
   var matrixString = "";
   var ledNum = 143;
@@ -15,48 +45,26 @@ function buildMatrix() {
     matrixString += "</tr>"; //adds a closing tag for the current row; moves onto the next row in the outer "for" loop
   }
   $("#ledMatrix").append(matrixString);
+
+  var blankArray = [];
+  for (var i = 0; i < 145; i++) {
+    blankArray.push("#000000");
+  }
+  blankArray = "[" + blankArray.toString() + "]";
+
+  $.ajax({
+    dataType: 'json',
+    url: '/drawings/' + $("#ellieDeeId").val().toString() + '.json',
+    method: 'PUT',
+    contentType: "application/json",
+    data: JSON.stringify({
+      "leds": blankArray
+    }),
+    success: function(data) {
+      console.log("EllieDee Successfully Reset: " + JSON.stringify(data));
+    },
+    error: function(jqXHR, textStatus, error) {
+      console.log("EllieDee Failed to Reset: " + error);
+    }
+  });
 }
-
-
-// function mouseDown(clicked_id) {
-//    var setColor = document.getElementById(clicked_id).backgroundColor;
-//    istrue = true;
-//    timer = setTimeout(function(){ grabColor(clicked_id);},delay);
-// }
-//
-// function grabColor(clicked_id) {
-//       if(timer)
-// 	      clearTimeout(timer);
-//
-//       if(istrue) {
-// 	      document.getElementById("currentColor").style.backgroundColor = document.getElementById(clicked_id).style.backgroundColor;
-//       }
-// }
-//
-// function reset() {
-//    istrue =false;
-// }
-//
-// function applyColor (clicked_id) {
-//
-// 	var ledID = clicked_id;
-// 	var setColor = document.getElementById('currentColor').style.backgroundColor; //example: rgb(0,0,0);
-// 	var rgb = setColor.replace(/[^\d,]/g, '').split(','); //strips rgb into values only, example: (0,0,0);
-// 	var r = rgb[0];
-// 	var g = rgb[1];
-// 	var b = rgb[2];
-//
-// 	document.getElementById(clicked_id).style.backgroundColor = setColor;
-// }
-//
-// // Reset all LED Matrix buttons to default color
-// function resetAll () {
-// 	for (var i = 1; i <= 144; i++) {
-// 		document.getElementById(i).style.backgroundColor = "buttonface";
-// 	}
-// }
-//
-// // Reset current color to "black" or "off" to turn off indivdual LEDs
-// function resetPicker () {
-// 	document.getElementById("currentColor").style.backgroundColor = "#000";
-// }

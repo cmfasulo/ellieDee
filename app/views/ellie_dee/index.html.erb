@@ -3,11 +3,15 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div id="ellieDee">
-    				<table id="ledMatrix">
-    				</table>
-    				<div id="logoRow"><div id="logoBackground"><img id="logo" src="<%= asset_path('brickh3dTransparent.png') %>"></></div>
-    				</div>
-    			</div>
+          				<table id="ledMatrix"></table>
+    				      <div id="logoRow">
+                    <div id="logoBackground"><img id="logo" src="<%= asset_path('brickh3dTransparent.png') %>"></>
+                    </div>
+    				      </div>
+                  <input type="hidden" id="ellieDeeId" value="<%=@drawing.id%>"/>
+                  <input type="hidden" id="ellieDeeObj" value="<%=@drawing.to_json%>"/>
+
+    			      </div>
             </div>
         </div>
     </div>
