@@ -2,27 +2,21 @@ $(document).ready(function() {
   buildMatrix();
 
   $(".led").on("click", function() {
-    var thisLed = this;
-    var ledIndex = "leds[" + this.id.toString() + "]";
-    // var drawing = "drawing";
-    // var drawingObj = "{ " + ledIndex.toString() + ": " + $("#currentColor").val() + " }";
-    var jsonData = { leds: "['test', 'test']" };
-    // console.log("EllieDeeObj: " + JSON.stringify(drawingObj));
-
-    // jsonData[ledIndex] = $("#currentColor").val();
-    // jsonData[drawing] =  JSON.parse(drawingObj);
-    console.log("JSON Data: " + JSON.stringify(jsonData));
+    
+    $(this).css('background-color', $("#currentColor").val());
+    var currentColors = getColors();
 
     $.ajax({
       dataType: 'json',
       url: '/drawings/' + $("#ellieDeeId").val().toString() + '.json',
       method: 'PUT',
       contentType: "application/json",
-      data: JSON.stringify(jsonData),
+      data: JSON.stringify({
+        "leds": currentColors
+      }),
       success: function(data) {
         console.log("EllieDee Successfully Updated: " + JSON.stringify(data));
-        console.log("This LED: " + data.leds[143]);
-        $(this).css('background-color', data.leds[parseInt(thisLed.id)].toString());
+        setColors(data.leds);
       },
       error: function(jqXHR, textStatus, error) {
         console.log("EllieDee Failed to Update: " + error);
@@ -37,7 +31,7 @@ function buildMatrix() {
   var matrixString = "";
   var ledNum = 143;
   for (var i = 11; i >= 0; i--) {
-    matrixString += "<tr id='" + i + "'>" //creates opening tag and id for current row
+    matrixString += "<tr id='r" + i + "'>" //creates opening tag and id for current row
     for (var j = 11; j >= 0; j--) {
       matrixString += "<td class='led' id='" + ledNum + "'><div></div></td>" //adds the current column to the string for the current row; moves onto the next column in the inner "for" loop
       ledNum--;
@@ -48,7 +42,7 @@ function buildMatrix() {
 
   var blankArray = [];
   for (var i = 0; i < 145; i++) {
-    blankArray.push("#000000");
+    blankArray.push("#808080");
   }
   blankArray = "[" + blankArray.toString() + "]";
 
@@ -61,10 +55,40 @@ function buildMatrix() {
       "leds": blankArray
     }),
     success: function(data) {
-      console.log("EllieDee Successfully Reset: " + JSON.stringify(data));
+      console.log("EllieDee Successfully Reset. LEDs: " + data.leds);
+      setColors(data.leds);
     },
     error: function(jqXHR, textStatus, error) {
       console.log("EllieDee Failed to Reset: " + error);
     }
   });
+}
+
+function getColors() {
+  var colors = [];
+
+  for (var i = 0; i <= 143; i++) {
+    var currentLed = "#" + i.toString();
+    var ledColor = rgb2hex($(currentLed).css('backgroundColor'));
+    // console.log("getColor LED: ", ledColor);
+    colors.push(ledColor);
+  }
+  console.log("Colors: ", colors);
+  return colors;
+}
+
+function setColors(array) {
+  for (var i = 0; i < array.length; i++) {
+    var currentLed = "#" + i.toString();
+    $(currentLed).css('backgroundColor', array[i].toString());
+  }
+}
+
+//Function to convert hex format to a rgb(a) color
+function rgb2hex(rgb){
+ rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+ return (rgb && rgb.length === 4) ? "#" +
+  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
 }
