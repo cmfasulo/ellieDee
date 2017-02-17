@@ -57,7 +57,7 @@ class DrawingsController < ApplicationController
   def destroy
     @drawing.destroy
     respond_to do |format|
-      format.html { redirect_to drawings_url, notice: 'Drawing was successfully destroyed.' }
+      format.html { redirect_to :back, notice: 'Drawing was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

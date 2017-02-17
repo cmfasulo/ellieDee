@@ -1,21 +1,4 @@
 <div class="row">
-    <div class="col-lg-6 pull-right">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div id="ellieDee">
-          				<table id="ledMatrix"></table>
-    				      <div id="logoRow">
-                    <div id="logoBackground"><img id="logo" src="<%= asset_path('brickh3dTransparent.png') %>"></>
-                    </div>
-    				      </div>
-                  <input type="hidden" id="ellieDeeId" value="<%=@drawing.id%>"/>
-                  <input type="hidden" id="ellieDeeObj" value="<%=@drawing.to_json%>"/>
-
-    			      </div>
-            </div>
-        </div>
-    </div>
-
     <div class="col-lg-6">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -25,21 +8,6 @@
                 <div>
                     <label for="currentColor">Current Color:</label><br>
                     <input type="color" id="currentColor"/><br>
-                </div>
-                <div>
-                    <label for="colorPalette">Saved Colors:</label><br>
-    				<table id="colorPalette">
-    					<tr>
-    						<td id="palette1"></td>
-    						<td id="palette2"></td>
-    						<td id="palette3"></td>
-    					</tr>
-    					<tr>
-    						<td id="palette4"></td>
-    						<td id="palette5"></td>
-    						<td id="palette6"></td>
-    					</tr>
-    				</table>
                 </div>
                 <button id="ledOff">Turn Off Single LED</button>
                 <button id="reset">Reset Drawing</button>
@@ -60,16 +28,38 @@
                   </thead>
 
                   <tbody>
-                    <% @drawings.each do |drawing| %>
-                      <tr>
-                        <td><%= drawing.name %></td>
-                        <td><%= link_to 'Show', drawing %></td>
-                        <td><%= link_to 'Edit', edit_drawing_path(drawing) %></td>
-                        <td><%= link_to 'Destroy', drawing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-                      </tr>
+                    <% if user_signed_in? %>
+                      <% current_user.drawings.each do |drawing| %>
+                        <tr>
+                          <td><%= drawing.name %></td>
+                          <td><i id="d<%= drawing.id %>" class="fa fa-play-circle"></i></td>
+                          <td>
+                            <%= link_to drawing, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                              <i class="fa fa-trash"></i>
+                            <% end %>
+                          </td>
+                        </tr>
+                      <% end %>
                     <% end %>
                   </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="ellieDee">
+          				<table id="ledMatrix"></table>
+    				      <div id="logoRow">
+                    <div id="logoBackground"><img id="logo" src="<%= asset_path('brickh3dTransparent.png') %>"></>
+                    </div>
+    				      </div>
+                  <input type="hidden" id="ellieDeeId" value="<%=@drawing.id%>"/>
+                  <input type="hidden" id="ellieDeeObj" value="<%=@drawing.to_json%>"/>
+
+    			      </div>
             </div>
         </div>
     </div>

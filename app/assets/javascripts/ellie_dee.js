@@ -2,7 +2,7 @@ $(document).ready(function() {
   buildMatrix();
 
   $(".led").on("click", function() {
-    
+
     $(this).css('background-color', $("#currentColor").val());
     var currentColors = getColors();
 
@@ -22,6 +22,18 @@ $(document).ready(function() {
         console.log("EllieDee Failed to Update: " + error);
       }
     });
+  });
+
+  $("#ledOff").on("click", function() {
+    $("#currentColor").val("#808080");
+  });
+
+  $("#reset").on("click", function() {
+    $("#ledMatrix").empty();
+    buildMatrix();
+  });
+
+  $("#save").on("click", function() {
 
   });
 });
