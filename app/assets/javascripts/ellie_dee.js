@@ -1,6 +1,18 @@
 $(document).ready(function() {
   buildMatrix();
 
+  $(function () {
+    $('[data-toggle="popover"]').popover()
+  });
+
+  $(document).on('click', function (e) {
+    $('[data-toggle="popover"],[data-original-title]').each(function () {
+      if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+          (($(this).popover('hide').data('bs.popover')||{}).inState||{}).click = false
+      }
+    });
+  });
+
   $(".led").on("click", function() {
 
     $(this).css('background-color', $("#currentColor").val());
@@ -29,13 +41,51 @@ $(document).ready(function() {
   });
 
   $("#reset").on("click", function() {
-    $("#ledMatrix").empty();
-    buildMatrix();
+    resetEllieDee();
   });
 
-  $("#save").on("click", function() {
+  $("#saveDrawing").popover({
+    placement: 'top',
+    title: 'Save Drawing',
+    html: true,
+    content: $('#saveForm').html()
+  }).on('click', function() {
+    $("#saveName").focus();
+    $("#save").on("click", function() {
+      var saveName = $("#saveName").val();
+      console.log("Save Name: ", saveName);
+      var saveLeds = getColors();
+      saveLeds = "[" + saveLeds.toString() + "]";
+      var saveUserId = $("#saveUserId").val();
+      console.log("User ID: ", saveUserId);
 
+      $.ajax({
+        dataType: 'json',
+        url: '/drawings/',
+        method: 'POST',
+        contentType: "application/json",
+        data: JSON.stringify({
+          "name": saveName,
+          "leds": saveLeds,
+          "user_id": saveUserId
+        }),
+        success: function(data) {
+          console.log(saveDrawing + " Successfully Saved: " + data);
+          $("#saveDrawing").popover('hide')
+          $("#userDrawings").append(
+            "<tr><td>" + data.name + "</td><td><i id='d" + data.user_id + "' class='fa fa-play-circle'></i></td><td><a data-confirm='Are you sure?' rel='nofollow' data-method='delete' href='/drawings/" + data.id + "' <i class='fa fa-trash'></i></a></td></tr>"
+          );
+        },
+        error: function(jqXHR, textStatus, error) {
+          console.log(saveDrawing + " Failed to Save: " + error);
+          if (error === "Unprocessable Entity") {
+            $("#saveAlert").text("Uh oh, looks like you're already using this name. Pick a new name or try again after deleting the old one below!").attr("type", "text");
+          };
+        }
+      });
+    });
   });
+
 });
 
 //Creates a function that generates a really long string with entire table HTML and sends AJAX call to reset LED array in database
@@ -51,7 +101,10 @@ function buildMatrix() {
     matrixString += "</tr>"; //adds a closing tag for the current row; moves onto the next row in the outer "for" loop
   }
   $("#ledMatrix").append(matrixString);
+  resetEllieDee();
+}
 
+function resetEllieDee() {
   var blankArray = [];
   for (var i = 0; i < 145; i++) {
     blankArray.push("#808080");

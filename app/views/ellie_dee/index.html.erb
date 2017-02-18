@@ -11,7 +11,18 @@
                 </div>
                 <button id="ledOff">Turn Off Single LED</button>
                 <button id="reset">Reset Drawing</button>
-                <button id="save">Save Drawing</button>
+                <% if !user_signed_in? %>
+                  <button data-toggle="popover" data-placement="top" data-content="You must be logged in to save drawings." data-original-title="Save Drawing" id="saveLogin">Save Drawing</button>
+                <% else %>
+                  <button id="saveDrawing">Save Drawing</button>
+                    <form id="saveForm" class="hide">
+                      <label for="saveName">Enter Drawing Name:</label>
+                      <input type="text" id="saveName"><br>
+                      <p type="hidden" style="color:red" id="saveAlert"></p>
+                      <input type="hidden" id="saveUserId" value='<%=current_user.id%>'>
+                      <button type="submit" id="save">Save</button>
+                    </form>
+                <% end %>
             </div>
         </div>
         <div class="panel panel-default">
@@ -27,7 +38,7 @@
                     </tr>
                   </thead>
 
-                  <tbody>
+                  <tbody id="userDrawings">
                     <% if user_signed_in? %>
                       <% current_user.drawings.each do |drawing| %>
                         <tr>
@@ -58,7 +69,6 @@
     				      </div>
                   <input type="hidden" id="ellieDeeId" value="<%=@drawing.id%>"/>
                   <input type="hidden" id="ellieDeeObj" value="<%=@drawing.to_json%>"/>
-
     			      </div>
             </div>
         </div>

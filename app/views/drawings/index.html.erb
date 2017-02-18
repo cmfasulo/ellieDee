@@ -17,7 +17,7 @@
       <tr>
         <td><%= drawing.name %></td>
         <td><%= drawing.leds %></td>
-        <td><%= drawing.user %></td>
+        <td><%= drawing.user.id %></td>
         <td><%= link_to 'Show', drawing %></td>
         <td><%= link_to 'Edit', edit_drawing_path(drawing) %></td>
         <td><%= link_to 'Destroy', drawing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
