@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-6">
-        <div class="panel panel-default">
+        <div class="panel panel-lime">
             <div class="panel-heading">
                 <h3 class="panel-title"><i class="fa fa-paint-brush"></i> Drawing Tools</h3>
             </div>
@@ -25,20 +25,21 @@
                 <% end %>
             </div>
         </div>
-        <div class="panel panel-default">
+        <div class="panel panel-aqua">
             <div class="panel-heading">
                 <h3 class="panel-title"><i class="fa fa-bookmark"></i> My Saved Drawings</h3>
             </div>
             <div class="table-responsive">
+              <div id="userDrawings">
                 <table class="table table-hover table-striped">
                   <thead>
                     <tr>
                       <th>Name</th>
-                      <th colspan="1"></th>
+                      <th>Load</th>
+                      <th>Delete</th>
                     </tr>
                   </thead>
-
-                  <tbody id="userDrawings">
+                  <tbody>
                     <% if user_signed_in? %>
                       <% current_user.drawings.each do |drawing| %>
                         <tr>
@@ -54,12 +55,16 @@
                     <% end %>
                   </tbody>
                 </table>
+              </div>
             </div>
         </div>
     </div>
 
     <div class="col-lg-6">
-        <div class="panel panel-default">
+        <div class="panel panel-orange">
+          <div class="panel-heading">
+              <h3 class="panel-title"><i class="fa fa-cube"></i> EllieDee</h3>
+          </div>
             <div class="panel-body">
                 <div id="ellieDee">
           				<table id="ledMatrix"></table>
