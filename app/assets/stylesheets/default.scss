@@ -6,3 +6,12 @@
   display: inline-block;
   height: 100%;
 }
+
+.field span {
+  color: red;
+}
+
+.required:before {
+  content:"*";
+  color: red;
+}

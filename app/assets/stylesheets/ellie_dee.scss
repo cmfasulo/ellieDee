@@ -289,19 +289,8 @@ ul.alert-dropdown {
     color: #df8a13;
 }
 
-tbody i {
-  cursor: pointer;
-}
-
-button {
-  margin: 10px;
-}
-
-// ELLIEDEE EDITOR
+// ELLIEDEE PANEL
 #ellieDee {
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
   width: 100%;
   border: solid 1em #000;
   border-bottom: 0;
@@ -339,22 +328,46 @@ button {
 	height: 2vh;
 }
 
-#userDrawings {
-  // max-height: 30vh;
-  overflow: hidden;
+// DRAWING TOOLS PANEL
+#accessRole {
+  cursor: pointer;
 }
 
-#userDrawings tr {
-  display: block;
-}
-#userDrawings th, td {
-  width: 300px;
+#accessRole > strong {
+  text-decoration: underline;
 }
 
-#userDrawings tbody {
-  display: block;
-  max-height: 30vh;
-  overflow: auto;
+.popover-title {
+  color: #000;
+  text-align: center;
+}
+.popover-content {
+  color: #000;
+}
+
+#dashboard button {
+  margin: 10px;
+  font-weight: bold;
+}
+
+#dashboard .btn:focus, .btn:active:focus, .btn.active:focus {
+  outline: 0 none;
+}
+
+#dashboard .btn-primary {
+  background: #7FF200;
+  color: #ffffff;
+  border: 0;
+  border-radius: 24px;
+}
+
+#dashboard .btn-primary:hover, #dashboard .btn-primary:focus, #dashboard .btn-primary:active, #dashboard .btn-primary.active, #dashboard .open > .dropdown-toggle.btn-primary {
+  background: #98f532;
+}
+
+#dashboard .btn-primary:active, #dashboard .btn-primary.active {
+  background: #6cc10e;
+  box-shadow: none;
 }
 
 #dashboard {
@@ -377,5 +390,30 @@ button {
 #currentColor {
 	width: 100px;
 	height: 100px;
+  cursor: pointer;
+}
+
+
+// MY SAVED DRAWINGS PANEL
+#userDrawings {
+  max-height: 40vh;
+  overflow: auto;
+}
+
+#userDrawings tr {
+  // display: block;
+}
+
+#userDrawings th, td {
+  // width: 300px;
+}
+
+#userDrawings tbody {
+  // display: block;
+  // max-height: 30vh;
+  // overflow: auto;
+}
+
+tbody i {
   cursor: pointer;
 }

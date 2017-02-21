@@ -1,26 +1,56 @@
 <div class="row">
     <div class="col-lg-6">
+        <div class="panel panel-orange">
+          <div class="panel-heading">
+            <h3 class="panel-title pull-right">Status: <span id="connectionStatus" style="color: red;">Offline</span></h3>
+            <h3 class="panel-title"><i class="fa fa-cube"></i> EllieDee</h3>
+          </div>
+            <div class="panel-body">
+                <div id="ellieDee">
+          				<table id="ledMatrix"></table>
+    				      <div id="logoRow">
+                    <div id="logoBackground"><img id="logo" src="<%= asset_path('brickh3dTransparent.png') %>"></>
+                    </div>
+    				      </div>
+                  <input type="hidden" id="ellieDeeId" value="<%=@drawing.id%>"/>
+                  <input type="hidden" id="ellieDeeObj" value="<%=@drawing.to_json%>"/>
+                  <input type="hidden" id="userRole" value="<%=current_user.roles.first.name%>"/>
+    			      </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
         <div class="panel panel-lime">
             <div class="panel-heading">
+                <h3 class="panel-title pull-right">Access Role: <span id="accessRole"><strong><%= current_user.roles.first.name %></strong> <i class="fa fa-question-circle"></i></span></h3>
                 <h3 class="panel-title"><i class="fa fa-paint-brush"></i> Drawing Tools</h3>
+                <div id="accessInfo" class="hide">
+                  <p>
+                    NOTE: You are currently assigned the role: <strong>"<%= current_user.roles.first.name %>"</strong>.<br>Only users with the role <strong>"ctrl"</strong> are authorized to send real-time drawings to EllieDee. If you'd like to request access, please contact Chris.
+                  </p>
+                  <p>
+                    In the meantime, level-up to a <strong>"reader"</strong> role by signing in or creating an account.<br>As a "reader", you can keep drawing here in the app and also save your masterpieces for later!
+                  </p>
+                </div>
             </div>
             <div class="panel-body" id="dashboard">
                 <div>
                     <label for="currentColor">Current Color:</label><br>
                     <input type="color" id="currentColor"/><br>
                 </div>
-                <button id="ledOff">Turn Off Single LED</button>
-                <button id="reset">Reset Drawing</button>
+                <button id="ledOff" class="btn btn-primary">Turn Off Single LED</button>
+                <button id="reset" class="btn btn-primary">Reset Drawing</button>
                 <% if !user_signed_in? %>
-                  <button data-toggle="popover" data-placement="top" data-content="You must be logged in to save drawings." data-original-title="Save Drawing" id="saveLogin">Save Drawing</button>
+                  <button data-toggle="popover" data-placement="top" data-content="You must be logged in to save drawings." data-original-title="Save Drawing" id="saveLogin" class="btn btn-primary">Save Drawing</button>
                 <% else %>
-                  <button id="saveDrawing">Save Drawing</button>
+                  <button id="saveDrawing" class="btn btn-primary">Save Drawing</button>
                     <form id="saveForm" class="hide">
                       <label for="saveName">Enter Drawing Name:</label>
                       <input type="text" id="saveName"><br>
                       <p type="hidden" style="color:red" id="saveAlert"></p>
                       <input type="hidden" id="saveUserId" value='<%=current_user.id%>'>
-                      <button type="submit" id="save">Save</button>
+                      <button type="submit" id="save" class="btn btn-primary">Save</button>
                     </form>
                 <% end %>
             </div>
@@ -34,18 +64,18 @@
                 <table class="table table-hover table-striped">
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Load</th>
-                      <th>Delete</th>
+                      <th class="col-xs-8">Name</th>
+                      <th class="col-xs-2 text-center">Load</th>
+                      <th class="col-xs-2 text-center">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
                     <% if user_signed_in? %>
                       <% current_user.drawings.each do |drawing| %>
                         <tr>
-                          <td><%= drawing.name %></td>
-                          <td><i id="d<%= drawing.id %>" class="fa fa-play-circle"></i></td>
-                          <td>
+                          <td class="col-xs-8"><%= drawing.name %></td>
+                          <td class="col-xs-2 text-center"><i id="d<%= drawing.id %>" class="fa fa-play-circle"></i></td>
+                          <td class="col-xs-2 text-center">
                             <%= link_to drawing, method: :delete, data: { confirm: 'Are you sure?' } do %>
                               <i class="fa fa-trash"></i>
                             <% end %>
@@ -56,25 +86,6 @@
                   </tbody>
                 </table>
               </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-6">
-        <div class="panel panel-orange">
-          <div class="panel-heading">
-              <h3 class="panel-title"><i class="fa fa-cube"></i> EllieDee</h3>
-          </div>
-            <div class="panel-body">
-                <div id="ellieDee">
-          				<table id="ledMatrix"></table>
-    				      <div id="logoRow">
-                    <div id="logoBackground"><img id="logo" src="<%= asset_path('brickh3dTransparent.png') %>"></>
-                    </div>
-    				      </div>
-                  <input type="hidden" id="ellieDeeId" value="<%=@drawing.id%>"/>
-                  <input type="hidden" id="ellieDeeObj" value="<%=@drawing.to_json%>"/>
-    			      </div>
             </div>
         </div>
     </div>

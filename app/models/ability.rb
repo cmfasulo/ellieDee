@@ -10,10 +10,12 @@ class Ability
       can :manage, :all
     elsif user.has_role? :ctrl
       can :read, :all
+      can :manage, User, id: user.id
       can :manage, Drawing, user_id: user.id
       can [:read, :update], Drawing, name: "EllieDee"
     elsif user.has_role? :reader
       can :read, :all
+      can :manage, User, id: user.id
       can :manage, Drawing, user_id: user.id
     else user.has_role? :guest
       can :read, :all

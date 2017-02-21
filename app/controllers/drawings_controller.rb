@@ -63,6 +63,14 @@ class DrawingsController < ApplicationController
     end
   end
 
+  def featured
+    render :text => "Coming Soon!", :layout => true
+  end
+
+  def submissions
+    render :text => "Coming Soon!", :layout => true
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_drawing
