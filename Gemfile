@@ -37,6 +37,8 @@ gem 'jbuilder', '~> 2.5'
 
 # Devise gem for user authentication
 gem 'devise'
+gem 'cancancan'
+gem 'rolify'
 
 # Font Awesome Icons
 gem 'font-awesome-rails', '~> 4.7', '>= 4.7.0.1'

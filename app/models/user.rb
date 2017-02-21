@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  rolify
   has_many :drawings
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
