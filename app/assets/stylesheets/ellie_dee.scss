@@ -253,6 +253,24 @@ ul.alert-dropdown {
     color: #a66a22;
 }
 
+.panel-magenta {
+    border-color: #E754CE;
+}
+
+.panel-magenta > .panel-heading {
+    border-color: #E754CE;
+    color: #fff;
+    background-color: #E754CE;
+}
+
+.panel-magenta > a {
+    color: #E754CE;
+}
+
+.panel-magenta > a:hover {
+    color: #f671df;
+}
+
 .panel-red {
     border-color: #d9534f;
 }

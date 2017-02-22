@@ -1,61 +1,73 @@
-<h1>Hi, <%= @user.email %>!</h1>
+<div class="row">
+  <h1>Hi, <%= @user.email %>!</h1>
+  <div class="col-lg-5">
+    <div class="panel panel-magenta">
+      <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-fw fa-user"></i> My Profile</h3>
+      </div>
+      <div id="profileInfo">
+        <p>
+          <strong>Username:</strong>
+          <%= @user.username %>
+        </p>
 
-<p>
-  <strong>Username:</strong>
-  <%= @user.username %>
-</p>
+        <p>
+          <strong>First Name:</strong>
+          <%= @user.first_name %>
+        </p>
 
-<p>
-  <strong>First Name:</strong>
-  <%= @user.first_name %>
-</p>
+        <p>
+          <strong>Last Name:</strong>
+          <%= @user.last_name %>
+        </p>
 
-<p>
-  <strong>Last Name:</strong>
-  <%= @user.last_name %>
-</p>
+        <p>
+          <strong>Email:</strong>
+          <%= @user.email %>
+        </p>
+        <br>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
-
-<!-- Make sure that the first condition refers to this user's ownership -->
-<% if !current_user.nil? && @user == current_user %>
-  <%= button_to "Edit My Profile", edit_user_path, :method => "get", class: "btn btn-success" %>
-<% end %>
-<br>
-
-<div class="panel panel-aqua">
-    <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-bookmark"></i> My Saved Drawings</h3>
-    </div>
-    <div class="table-responsive">
-      <div id="userDrawings">
-        <table class="table table-hover table-striped">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Load</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% if user_signed_in? %>
-              <% current_user.drawings.each do |drawing| %>
-                <tr>
-                  <td><%= drawing.name %></td>
-                  <td><i id="d<%= drawing.id %>" class="fa fa-play-circle"></i></td>
-                  <td>
-                    <%= link_to drawing, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                      <i class="fa fa-trash"></i>
-                    <% end %>
-                  </td>
-                </tr>
-              <% end %>
-            <% end %>
-          </tbody>
-        </table>
+        <!-- Make sure that the first condition refers to this user's ownership -->
+        <% if !current_user.nil? && @user == current_user %>
+          <%= button_to "Edit My Profile", edit_user_path, :method => "get", class: "btn btn-primary" %>
+        <% end %>
+        <br>
       </div>
     </div>
+  </div>
+  <div class="col-lg-7">
+    <div class="panel panel-aqua">
+        <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-bookmark"></i> My Saved Drawings</h3>
+        </div>
+        <div class="table-responsive">
+          <div id="userDrawings">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th class="text-center">Load</th>
+                  <th class="text-center">Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if user_signed_in? %>
+                  <% current_user.drawings.each do |drawing| %>
+                    <tr>
+                      <td><%= drawing.name %></td>
+                      <td class="text-center"><a href="/"><i id="d<%= drawing.id %>" class="fa fa-play-circle"></i></a></td>
+                      <td class="text-center">
+                        <%= link_to drawing, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                          <i class="fa fa-trash"></i>
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </div>
+  </div>
 </div>

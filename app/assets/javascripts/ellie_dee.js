@@ -1,5 +1,4 @@
 $(document).ready(function() {
-  var userRole = $("#userRole").val();
   buildMatrix();
 
   $(function () {
@@ -26,6 +25,7 @@ $(document).ready(function() {
 
     $(this).css('background-color', $("#currentColor").val());
     var currentColors = getColors();
+    var userRole = $("#userRole").val();
 
     if (userRole === 'admin' || userRole === 'ctrl') {
       $.ajax({
@@ -66,8 +66,8 @@ $(document).ready(function() {
       var saveUserId = $("#saveUserId").val();
       var saveName = $("#saveName").val();
       var saveLeds = getColors();
+      var userRole = $("#userRole").val();
       console.log("Save Colors Array Length: " + saveLeds.length);
-      saveLeds = "[" + saveLeds.toString() + "]";
 
       if (userRole === 'admin' || userRole === 'ctrl' || userRole === 'reader') {
         $.ajax({
@@ -84,8 +84,8 @@ $(document).ready(function() {
             // console.log(saveDrawing + " Successfully Saved: " + data);
             console.log("Callback Array Length: " + data.leds.length);
             $("#saveDrawing").popover('hide')
-            $("#userDrawings").append(
-              "<tr><td>" + data.name + "</td><td><i id='d" + data.user_id + "' class='fa fa-play-circle'></i></td><td><a data-confirm='Are you sure?' rel='nofollow' data-method='delete' href='/drawings/" + data.id + "' <i class='fa fa-trash'></i></a></td></tr>"
+            $("#tableBody").append(
+              '<tr><td class="col-xs-8">' + data.name + '</td><td class="col-xs-2 text-center"><i id="d' + data.id + '" class="fa fa-play-circle"></i></td><td class="col-xs-2 text-center"><a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="/drawings/' + data.id + '" <i class="fa fa-trash"></i></a></td></tr>'
             );
           },
           error: function(jqXHR, textStatus, error) {
@@ -99,7 +99,7 @@ $(document).ready(function() {
     });
   });
 
-  $(".fa-play-circle").on("click", function() {
+  $("tbody").on("click", ".fa-play-circle", function() {
     var drawingId = $(this).attr('id');
     drawingId = drawingId.slice(1, drawingId.length);
 
@@ -118,6 +118,7 @@ $(document).ready(function() {
       }
     });
   });
+
 });
 
 //Function to generate string for entire table HTML and sends AJAX call to reset LED array in db
@@ -142,7 +143,7 @@ function resetEllieDee() {
   for (var i = 0; i < 145; i++) {
     blankArray.push("#808080");
   }
-
+  var userRole = $("#userRole").val();
   if (userRole === 'admin' || userRole === 'ctrl') {
     blankArray = "[" + blankArray.toString() + "]";
     $.ajax({

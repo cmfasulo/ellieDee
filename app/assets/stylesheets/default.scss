@@ -15,3 +15,36 @@
   content:"*";
   color: red;
 }
+
+.fa-play-circle {
+  color: #337ab7;
+}
+
+#profileInfo, h1 {
+  padding: 8px;
+}
+
+#profileInfo button {
+  margin: 10px;
+  font-weight: bold;
+}
+
+#profileInfo .btn:focus, .btn:active:focus, .btn.active:focus {
+  outline: 0 none;
+}
+
+#profileInfo .btn-primary {
+  background: #E754CE;
+  color: #ffffff;
+  border: 0;
+  border-radius: 24px;
+}
+
+#profileInfo .btn-primary:hover, #profileInfo .btn-primary:focus, #profileInfo .btn-primary:active, #profileInfo .btn-primary.active, #profileInfo .open > .dropdown-toggle.btn-primary {
+  background: #f671df;
+}
+
+#profileInfo .btn-primary:active, #profileInfo .btn-primary.active {
+  background: #913482;
+  box-shadow: none;
+}
