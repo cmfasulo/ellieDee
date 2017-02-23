@@ -55,3 +55,6 @@ db/schema.rb
 
 # Ignore .DS_Store
 .DS_Store
+
+# Default User Passwords
+default_pwds.txt
