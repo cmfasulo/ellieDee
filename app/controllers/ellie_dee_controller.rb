@@ -7,4 +7,8 @@ class EllieDeeController < ApplicationController
     @drawings = Drawing.all
   end
 
+  def about
+    @drawing = Drawing.find_by_name("EllieDee")
+  end
+
 end

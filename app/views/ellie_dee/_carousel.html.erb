@@ -1,0 +1,213 @@
+<!-- Credit: "Carousel with Gallery Thumbs" Bootstrap 3.2.0 Snippet by LabWorkz
+http://bootsnipp.com/snippets/featured/carousel-with-gallery-thumbs -->
+
+<!-- Slider -->
+<div class="row col-sm-10 col-sm-offset-1 panel panel-magenta" id="carousel">
+  <div class="panel panel-aqua panel-padding" id="slider-thumbs">
+      <!-- Bottom switcher of slider -->
+      <ul class="hide-bullets">
+          <li class="col-sm-4">
+              <a class="thumbnail" id="carousel-selector-0">
+                  <%= image_tag("ellieDee1.png") %>
+              </a>
+          </li>
+
+          <li class="col-sm-4">
+              <a class="thumbnail" id="carousel-selector-1"><%= image_tag("ellieDee2.jpg") %></a>
+          </li>
+
+          <li class="col-sm-4">
+              <a class="thumbnail" id="carousel-selector-2"><%= image_tag("ellieDee3.jpg") %></a>
+          </li>
+
+          <li class="col-sm-4">
+              <a class="thumbnail" id="carousel-selector-3"><%= image_tag("ellieDee4.jpg") %></a>
+          </li>
+
+          <li class="col-sm-4">
+              <a class="thumbnail" id="carousel-selector-4"><%= image_tag("ellieDee5.jpg") %></a>
+          </li>
+
+          <li class="col-sm-4">
+              <a class="thumbnail" id="carousel-selector-5"><%= image_tag("ellieDee6.jpg") %></a>
+          </li>
+
+          <li class="col-sm-4">
+              <a class="thumbnail" id="carousel-selector-6"><%= image_tag("ellieDee7.jpg") %></a>
+          </li>
+          <li class="col-sm-4">
+              <a class="thumbnail" id="carousel-selector-7"><%= image_tag("ellieDee8.jpg") %></a>
+          </li>
+
+          <li class="col-sm-4">
+              <a class="thumbnail" id="carousel-selector-8"><%= image_tag("ellieDee9.jpg") %></a>
+          </li>
+
+          <li class="col-sm-4">
+              <a class="thumbnail" id="carousel-selector-9"><%= image_tag("ellieDee10.jpg") %></a>
+          </li>
+
+          <li class="col-sm-4">
+              <a class="thumbnail" id="carousel-selector-10"><%= image_tag("ellieDee11.jpg") %></a>
+          </li>
+
+          <li class="col-sm-4">
+              <a class="thumbnail" id="carousel-selector-11"><%= image_tag("ellieDee12.jpg") %></a>
+          </li>
+
+          <li class="col-sm-4">
+              <a class="thumbnail" id="carousel-selector-12"><%= image_tag("mitapp1.png") %></a>
+          </li>
+
+          <li class="col-sm-4">
+              <a class="thumbnail" id="carousel-selector-13"><%= image_tag("mitapp2.png") %></a>
+          </li>
+
+          <li class="col-sm-4">
+              <a class="thumbnail" id="carousel-selector-14"><%= image_tag("mitapp3.png") %></a>
+          </li>
+      </ul>
+  </div>
+  <div class="panel panel-lime panel-padding" id="slider-col">
+      <div class="col-xs-12" id="slider">
+          <!-- Top part of the slider -->
+          <div class="row">
+              <div class="col-sm-12" id="carousel-bounding-box">
+                  <div class="carousel slide" id="myCarousel">
+                      <!-- Carousel items -->
+                      <div class="carousel-inner">
+                          <div class="active item" data-slide-number="0">
+                              <%= image_tag("ellieDee1.png") %>
+                              <div class="carousel-caption d-none d-md-block">
+                                <h3>CAD Concept</h3>
+                                <p>Design Stage: Let's do this!</p>
+                              </div>
+                          </div>
+
+                          <div class="item" data-slide-number="1">
+                              <%= image_tag("ellieDee2.jpg") %>
+                              <div class="carousel-caption d-none d-md-block">
+                                <h3>Arduino Prototyping</h3>
+                                <p>#StackOverflowFTW</p>
+                              </div>
+                          </div>
+
+                          <div class="item" data-slide-number="2">
+                              <%= image_tag("ellieDee3.jpg") %>
+                              <div class="carousel-caption d-none d-md-block">
+                                <h3>Let There Be Light!</h3>
+                                <p>Blink LED Level:9000</p>
+                              </div>
+                          </div>
+
+                          <div class="item" data-slide-number="3">
+                              <%= image_tag("ellieDee4.jpg") %>
+                              <div class="carousel-caption d-none d-md-block">
+                                <h3>Internal Grid Template</h3>
+                                <p>Gotta keep all of these knuckleheads in line</p>
+                              </div>
+                          </div>
+
+                          <div class="item" data-slide-number="4">
+                              <%= image_tag("ellieDee5.jpg") %>
+                              <div class="carousel-caption d-none d-md-block">
+                                <h3>Aligning Strips to Template</h3>
+                                <p>Cut, glue, solder, repeat.</p>
+                              </div>
+                          </div>
+
+                          <div class="item" data-slide-number="5">
+                              <%= image_tag("ellieDee6.jpg") %>
+                              <div class="carousel-caption d-none d-md-block">
+                                <h3>3D Printed Internal Grid</h3>
+                                <p>Close Enough.</p>
+                              </div>
+                          </div>
+
+                          <div class="item" data-slide-number="6">
+                              <%= image_tag("ellieDee7.jpg") %>
+                              <div class="carousel-caption d-none d-md-block">
+                                <h3>Testing Diffuser Strengths</h3>
+                                <p>Don't wanna shed TOO much light on the situation</p>
+                              </div>
+                          </div>
+
+                          <div class="item" data-slide-number="7">
+                              <%= image_tag("ellieDee8.jpg") %>
+                              <div class="carousel-caption d-none d-md-block">
+                                <h3>3D Printed Grid Front</h3>
+                                <p>Not great...not terrible, but not great. We'll round up.</p>
+                              </div>
+                          </div>
+
+                          <div class="item" data-slide-number="8">
+                              <%= image_tag("ellieDee9.jpg") %>
+                              <div class="carousel-caption d-none d-md-block">
+                                <h3>The Same Thing, But Different</h3>
+                                <p>Upon closer inspection...yep, still not that great.</p>
+                              </div>
+                          </div>
+
+                          <div class="item" data-slide-number="9">
+                              <%= image_tag("ellieDee10.jpg") %>
+                              <div class="carousel-caption d-none d-md-block">
+                                <h3>Installed!</h3>
+                                <p>(there may have been one or two or seven steps between this and the last picture but I forgot to document, oops)</p>
+                              </div>
+                          </div>
+
+                          <div class="item" data-slide-number="10">
+                              <%= image_tag("ellieDee11.jpg") %>
+                              <div class="carousel-caption d-none d-md-block">
+                                <h3>Detail View</h3>
+                                <p>*Close-up for dramatic effect*</p>
+                              </div>
+                          </div>
+
+                          <div class="item" data-slide-number="11">
+                              <%= image_tag("ellieDee12.jpg") %>
+                              <div class="carousel-caption d-none d-md-block">
+                                <h3>Side View</h3>
+                                <p>Glare? What glare?</p>
+                              </div>
+                          </div>
+
+                          <div class="item" data-slide-number="12">
+                              <%= image_tag("mitapp1.png") %>
+                              <div class="carousel-caption d-none d-md-block">
+                                <h3>MIT App Inventor</h3>
+                                <p>How do I make Facebook?</p>
+                              </div>
+                          </div>
+
+                          <div class="item" data-slide-number="13">
+                              <%= image_tag("mitapp2.png") %>
+                              <div class="carousel-caption d-none d-md-block">
+                                <h3>Block Coding</h3>
+                                <p>Not ideal, but hey, it got the job done for the time being</p>
+                              </div>
+                          </div>
+
+                          <div class="item" data-slide-number="14">
+                              <%= image_tag("mitapp3.png") %>
+                              <div class="carousel-caption d-none d-md-block">
+                                <h3>LED x 144</h3>
+                                <p>Oh did I mention I had to create a unique block/ID by hand for all 144 LEDs? The most out of control controller I've ever seen.</p>
+                              </div>
+                          </div>
+
+                      </div>
+                      <!-- Carousel nav -->
+                      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                          <span class="glyphicon glyphicon-chevron-left"></span>
+                      </a>
+                      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                          <span class="glyphicon glyphicon-chevron-right"></span>
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+  <!--/Slider-->

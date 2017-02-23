@@ -1,0 +1,44 @@
+// Credit: "Carousel with Gallery Thumbs" Bootstrap 3.2.0 Snippet by LabWorkz
+//http://bootsnipp.com/snippets/featured/carousel-with-gallery-thumbs
+
+// image carousel on /about page
+.hide-bullets {
+  list-style:none;
+  margin-left: -40px;
+  margin-top:20px;
+}
+
+#carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row wrap;
+}
+
+#slider-thumbs, #slider-col {
+  // height: 50vh;
+}
+
+#slider-thumbs {
+  flex: 1 0 30%;
+  align-self: stretch;
+  order: 1;
+}
+
+#slider-col {
+  flex: 1 0 50%;
+  order: 0;
+}
+
+.carousel-caption {
+  background: rgba(0,0,0,0.5);
+  max-width: 100%;
+  width: 100%;
+  left: 0;
+  bottom:0;
+  padding: 0 0 5px 0;
+}
+
+.carousel-caption > h3 {
+  margin-top: 10px;
+}

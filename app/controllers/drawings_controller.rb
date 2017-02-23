@@ -1,7 +1,7 @@
 class DrawingsController < ApplicationController
   before_action :set_drawing, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
-  load_and_authorize_resource
+  before_action :authenticate_user!, except: [:featured, :submissions, :elliedee]
+  load_and_authorize_resource except: [:featured, :submissions, :elliedee]
 
   # GET /drawings
   # GET /drawings.json
@@ -69,6 +69,11 @@ class DrawingsController < ApplicationController
 
   def submissions
     render :text => "Coming Soon!", :layout => true
+  end
+
+  def elliedee
+    @elliedee = Drawing.find_by_name('EllieDee')
+    render json: @elliedee
   end
 
   private

@@ -14,7 +14,9 @@
     				      </div>
                   <input type="hidden" id="ellieDeeId" value="<%=@drawing.id%>"/>
                   <input type="hidden" id="ellieDeeObj" value="<%=@drawing.to_json%>"/>
-                  <input type="hidden" id="userRole" value="<%=current_user.roles.first.name%>"/>
+                  <% if !current_user.nil? %>
+                  <input type="hidden" id="userRole" value="<%= current_user.roles.first.name %>"/>
+                  <% end %>
     			      </div>
             </div>
         </div>
@@ -23,11 +25,23 @@
     <div class="col-lg-6">
         <div class="panel panel-lime">
             <div class="panel-heading">
-                <h3 class="panel-title pull-right">Access Role: <span id="accessRole"><strong><%= current_user.roles.first.name %></strong> <i class="fa fa-question-circle"></i></span></h3>
+                <h3 class="panel-title pull-right">Access Role: <span id="accessRole">
+                  <% if !current_user.nil? %>
+                  <strong><%= current_user.roles.first.name %> </strong>
+                  <% else %>
+                  <strong>Guest </strong>
+                  <% end %>
+                  <i class="fa fa-question-circle"></i></span></h3>
                 <h3 class="panel-title"><i class="fa fa-paint-brush"></i> Drawing Tools</h3>
                 <div id="accessInfo" class="hide">
                   <p>
-                    NOTE: You are currently assigned the role: <strong>"<%= current_user.roles.first.name %>"</strong>.<br>Only users with the role <strong>"ctrl"</strong> are authorized to send real-time drawings to EllieDee. If you'd like to request access, please contact Chris.
+                    NOTE: You are currently assigned the role:
+                    <% if !current_user.nil? %>
+                    <strong><%= current_user.roles.first.name %></strong>
+                    <% else %>
+                    <strong>Guest</strong>
+                    <% end %>.<br>
+                    Only users with the role <strong>"ctrl"</strong> are authorized to send real-time drawings to EllieDee. If you'd like to request access, please contact Chris.
                   </p>
                   <p>
                     In the meantime, level-up to a <strong>"reader"</strong> role by signing in or creating an account.<br>As a "reader", you can keep drawing here in the app and also save your masterpieces for later!
@@ -37,7 +51,7 @@
             <div class="panel-body" id="dashboard">
                 <div>
                     <label for="currentColor">Current Color:</label><br>
-                    <input type="color" id="currentColor"/><br>
+                    <input type="color" value="#66d8da" id="currentColor"/><br>
                 </div>
                 <button id="ledOff" class="btn btn-primary">Turn Off Single LED</button>
                 <button id="reset" class="btn btn-primary">Reset Drawing</button>

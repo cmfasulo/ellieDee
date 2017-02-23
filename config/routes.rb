@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get '/users/:id' => 'users#show'
   get '/featured' => 'drawings#featured'
   get '/submissions' => 'drawings#submissions'
+  get '/about' => 'ellie_dee#about'
+  get '/elliedee' => 'drawings#elliedee'
 
   root to: 'ellie_dee#index'
 end

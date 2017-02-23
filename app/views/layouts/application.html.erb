@@ -90,6 +90,12 @@
                       <% end %>>
                       <a href="/submissions"><i class="fa fa-users"></i> User Submissions</a>
                     </li>
+                    <li
+                      <% if request.original_url.ends_with?('/about') %>
+                      class="active"
+                      <% end %>>
+                      <a href="/about"><i class="fa fa-info-circle"></i> Meet EllieDee!</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
