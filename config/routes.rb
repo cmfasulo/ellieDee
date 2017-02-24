@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :drawings
-  devise_for :users
-  resources :users
+  devise_for :users, :controllers => { registrations: 'registrations' }
+  # resources :users
 
 
   get '/' => 'ellie_dee#index'

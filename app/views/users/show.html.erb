@@ -29,7 +29,7 @@
 
         <!-- Make sure that the first condition refers to this user's ownership -->
         <% if !current_user.nil? && @user == current_user %>
-          <%= button_to "Edit My Profile", edit_user_path, :method => "get", class: "btn btn-primary" %>
+          <%= button_to "Edit My Profile", edit_user_registration_path, :method => "get", class: "btn btn-primary" %>
         <% end %>
         <br>
       </div>
