@@ -96,6 +96,12 @@
                       <% end %>>
                       <a href="/about"><i class="fa fa-info-circle"></i> Meet EllieDee!</a>
                     </li>
+                    <li
+                      <% if request.original_url.ends_with?('/contact') %>
+                      class="active"
+                      <% end %>>
+                      <a href="/contact"><i class="fa fa-envelope"></i> Contact | Report Bug <i class="fa fa-bug"></i></a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

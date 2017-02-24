@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/featured' => 'drawings#featured'
   get '/submissions' => 'drawings#submissions'
   get '/about' => 'ellie_dee#about'
+  get '/contact' => 'contact#index'
   get '/elliedee' => 'drawings#elliedee'
 
   root to: 'ellie_dee#index'
