@@ -89,7 +89,7 @@ $(document).ready(function() {
               console.log("Callback Array Length: " + data.leds.length);
               $("#saveDrawing").popover('hide')
               $("#tableBody").append(
-                '<tr><td class="col-xs-8">' + data.name + '</td><td class="col-xs-2 text-center"><i id="d' + data.id + '" class="fa fa-play-circle"></i></td><td class="col-xs-2 text-center"><a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="/drawings/' + data.id + '" <i class="fa fa-trash"></i></a></td></tr>'
+                '<tr><td class="col-md-8">' + data.name + '</td><td class="col-md-2 text-center"><i id="d' + data.id + '" class="fa fa-play-circle"></i></td><td class="col-md-2 text-center"><a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="/drawings/' + data.id + '" <i class="fa fa-trash"></i></a></td></tr>'
               );
             },
             error: function(jqXHR, textStatus, error) {

@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-xs-6">
+    <div class="col-md-6">
         <div class="panel panel-orange">
           <div class="panel-heading">
             <h3 class="panel-title pull-right">Status: <span id="connectionStatus" style="color: red;">Offline</span></h3>
@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <div class="col-xs-6">
+    <div class="col-md-6">
         <div class="panel panel-lime">
             <div class="panel-heading">
                 <h3 class="panel-title pull-right">Access Role: <span id="accessRole">
@@ -78,18 +78,18 @@
                 <table class="table table-hover table-striped">
                   <thead>
                     <tr>
-                      <th class="col-xs-8">Name</th>
-                      <th class="col-xs-2 text-center">Load</th>
-                      <th class="col-xs-2 text-center">Delete</th>
+                      <th class="col-md-8">Name</th>
+                      <th class="col-md-2 text-center">Load</th>
+                      <th class="col-md-2 text-center">Delete</th>
                     </tr>
                   </thead>
                   <tbody id="tableBody">
                     <% if user_signed_in? %>
                       <% current_user.drawings.each do |drawing| %>
                         <tr>
-                          <td class="col-xs-8"><%= drawing.name %></td>
-                          <td class="col-xs-2 text-center"><i id="d<%= drawing.id %>" class="fa fa-play-circle"></i></td>
-                          <td class="col-xs-2 text-center">
+                          <td class="col-md-8"><%= drawing.name %></td>
+                          <td class="col-md-2 text-center"><i id="d<%= drawing.id %>" class="fa fa-play-circle"></i></td>
+                          <td class="col-md-2 text-center">
                             <%= link_to drawing, method: :delete, data: { confirm: 'Are you sure?' } do %>
                               <i class="fa fa-trash"></i>
                             <% end %>
