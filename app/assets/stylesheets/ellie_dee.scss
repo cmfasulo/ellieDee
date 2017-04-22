@@ -259,13 +259,14 @@ ul.alert-dropdown {
 }
 
 #dashboard > button {
-  flex: 1 0 20%;
+  flex: 1 0 25%;
 }
 
-#currentColor {
-	width: 100px;
+.minicolors {
+	width: 100px !important;
 	height: 100px;
   cursor: pointer;
+  border: 1px solid #666666;
 }
 
 

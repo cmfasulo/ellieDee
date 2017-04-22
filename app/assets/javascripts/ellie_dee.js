@@ -1,6 +1,8 @@
 $(document).ready(function() {
   buildMatrix();
 
+  $('input[id=currentColor]').minicolors();
+
   $(function () {
     $('[data-toggle="popover"]').popover()
   });
@@ -47,8 +49,20 @@ $(document).ready(function() {
     };
   });
 
+  var timer;
+  $(".led").on("mousedown",function(){
+      var me = this;
+      timer = setTimeout(function(){
+        $("#currentColor").val(rgb2hex($(me).css("background-color")));
+        $(".minicolors-swatch-color").attr("style", "background-color: " + rgb2hex($(me).css("background-color")));
+      },2*1000);
+  }).on("mouseup mouseleave",function(){
+      clearTimeout(timer);
+  });
+
   $("#ledOff").on("click", function() {
     $("#currentColor").val("#808080");
+    $(".minicolors-swatch-color").attr("style", "background-color: " + "#808080");
   });
 
   $("#reset").on("click", function() {
