@@ -50,13 +50,13 @@ $(document).ready(function() {
   });
 
   var timer;
-  $(".led").on("mousedown",function(){
+  $(".led").on("mousedown touchstart",function(){
       var me = this;
       timer = setTimeout(function(){
         $("#currentColor").val(rgb2hex($(me).css("background-color")));
         $(".minicolors-swatch-color").attr("style", "background-color: " + rgb2hex($(me).css("background-color")));
       },2*1000);
-  }).on("mouseup mouseleave",function(){
+  }).on("mouseup mouseleave touchend",function(){
       clearTimeout(timer);
   });
 
