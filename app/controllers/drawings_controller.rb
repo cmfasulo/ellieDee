@@ -73,7 +73,7 @@ class DrawingsController < ApplicationController
 
   def elliedee
     @elliedee = Drawing.find_by_name('EllieDee')
-    render json: @elliedee
+    render json: @elliedee.leds
   end
 
   private

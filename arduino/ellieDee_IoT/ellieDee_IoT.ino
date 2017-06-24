@@ -4,41 +4,48 @@
 
 
 // Pin Definitions
-#define ESP8266_rxPin 2
-#define ESP8266_txPin 3
-#define Status_Pin 5
+#define sw_serial_rxPin 2
+#define sw_serial_txPin 3
+#define esp8266_resetPin 5
 #define Strip_Pin 6
+#define Status_Pin 9
+
 
 // Wifi Info
-const char WIFI_SSID[] = "Bill Wi the Sci Fi Guy";
-const char WIFI_PSK[] = "nyetyson2016";
+const char ssid[] = "Bill Wi the Sci Fi Guy";
+const char pass[] = "nyetyson2020";
 
 // Remote site information
 const char http_site[] = "elliedee.herokuapp.com";
-const int http_port = 80;
+const char http_port[] = "80";
+const char request[] = "GET /elliedee HTTP/1.1\r\nHost: elliedee.herokuapp.com\r\n\r\n";
 
 // Global Variables
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(144, Strip_Pin, NEO_GRB + NEO_KHZ800);
-
-SoftwareSerial ESP8266(ESP8266_rxPin, ESP8266_txPin);// rx tx
+SoftwareSerial swSerial(sw_serial_rxPin, sw_serial_txPin);// rx tx
+ESP8266wifi wifi(swSerial, swSerial, esp8266_resetPin, Serial);
+String leds[144];
 
 void setup(){
   
-  // Pin Modes
-  pinMode(ESP8266_rxPin, INPUT);
-  pinMode(ESP8266_txPin, OUTPUT);
-  pinMode(Status_Pin, OUTPUT);
-
-  // Set up serial console to read web page
+  swSerial.begin(9600);
   Serial.begin(9600);
-  Serial.print("Thing GET Example"); 
-  
-  // Connect to WiFi
-  connectWiFi();
+  while (!Serial)
+    ;
 
-  // Attempt to connect to website
-  if ( !getEllieDee() ) {
-    Serial.println("GET request failed");
+  wifi.setTransportToTCP();
+  wifi.endSendWithNewline(true);
+  wifi.begin();
+
+  wifi.connectToAP(*ssid, *pass);
+  
+  if(wifi.isConnectedToAP()) {
+    Serial.println("Connected to access point!");
+  }
+  wifi.connectToServer(http_site, http_port);
+
+  if(wifi.isConnectedToServer()) {
+  Serial.println("Connected to server!");
   }
 
 //  strip.begin();
@@ -55,31 +62,24 @@ void setup(){
 } // End setup()
 
 void loop(){
-
-   // If there are incoming bytes, print them
-  if ( client.available() ) {
-    char c = client.read();
-    Serial.print(c);
-  }
   
-  // If the server has disconnected, stop the client and WiFi
-  if ( !client.connected() ) {
-    Serial.println();
-    
-    // Close socket and wait for disconnect from WiFi
-    client.stop();
-    if ( WiFi.status() != WL_DISCONNECTED ) {
-      WiFi.disconnect();
-    }
+  if (!wifi.isStarted()) {
+    wifi.begin();
+  }
 
-    // Turn off LED
-    digitalWrite(Status_Pin, LOW);
+  wifi.send(SERVER, request);
+
+  //Listen for incoming messages and echo back, will wait until a message is received, or max 6000ms..
+//  WifiMessage in = wifi.listenForIncomingMessage(1000);
+  WifiMessage msg = wifi.getIncomingMessage();
+  if (msg.hasData) {
+    String leds[144];
+    String res[144] = msg.message.substring(msg.message.indexOf("["), msg.message.lastIndexOf("]"));
+    Serial.println("********************");
+    Serial.println("res:");
+    Serial.println(res);
+    Serial.println("********************");
     
-    // Do nothing
-    Serial.println("Finished Thing GET test");
-    while(true){
-      delay(1000);
-    }
   }
   
   
@@ -105,60 +105,36 @@ void loop(){
 } // End loop()
 
 
-// Attempt to connect to WiFi
-void connectWiFi() {
-
-  byte led_status = 0;
-  
-  // Set WiFi mode to station (client)
-  WiFi.mode(WIFI_STA);
-  
-  // Initiate connection with SSID and PSK
-  WiFi.begin(WIFI_SSID, WIFI_PSK);
-  
-  // Blink LED while we wait for WiFi connection
-  while ( WiFi.status() != WL_CONNECTED ) {
-    digitalWrite(Status_Pin, led_status);
-    led_status ^= 0x01;
-    delay(100);
-  }
-  
-  // Turn LED on when we are connected
-  digitalWrite(Status_Pin, HIGH);
-}
- 
-// Perform an HTTP GET request to a remote page
-bool getEllieDee() {
-  
-  // Attempt to make a connection to the remote server
-  if ( !client.connect(http_site, http_port) ) {
-    return false;
-  }
-  
-  // Make an HTTP GET request
-  client.println("GET /elliedee HTTP/1.1");
-  client.print("Host: ");
-  client.println(http_site);
-  client.println("Connection: close");
-  client.println();
-  
-  return true;
-}
-
 //Theatre-style crawling lights
-void theaterChase(uint32_t c, uint8_t wait) {
-  for (int j=0; j<10; j++) {  //do 10 cycles of chasing
-    for (int q=0; q < 3; q++) {
-      for (int i=0; i < strip.numPixels(); i=i+3) {
-        strip.setPixelColor(i+q, c);    //turn every third pixel on
-      }
-      strip.show();
+//void theaterChase(uint32_t c, uint8_t wait) {
+//  for (int j=0; j<10; j++) {  //do 10 cycles of chasing
+//    for (int q=0; q < 3; q++) {
+//      for (int i=0; i < strip.numPixels(); i=i+3) {
+//        strip.setPixelColor(i+q, c);    //turn every third pixel on
+//      }
+//      strip.show();
+//
+//      delay(wait);
+//
+//      for (int i=0; i < strip.numPixels(); i=i+3) {
+//        strip.setPixelColor(i+q, 0);        //turn every third pixel off
+//      }
+//    }
+//  }
+//}
 
-      delay(wait);
+void setLeds(WifiMessage msg) {
+  // return buffer
+  char espBuf[MSG_BUFFER_MAX];
+  // scanf holders
+  int set;
+  char str[100];
 
-      for (int i=0; i < strip.numPixels(); i=i+3) {
-        strip.setPixelColor(i+q, 0);        //turn every third pixel off
-      }
-    }
-  }
+  sscanf(msg.message,"%15s %d",str,&set);
+  swSerial.println("str: ");
+  swSerial.println(str);
+  swSerial.println("set: ");
+  swSerial.println(set);
+  
 }
+
