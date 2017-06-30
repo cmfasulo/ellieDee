@@ -79,7 +79,7 @@ class DrawingsController < ApplicationController
       @elliedee.leds[i] = [ i, m[1].hex, m[2].hex, m[3].hex ]
     }
 
-    render :json => @elliedee.leds
+    render :json => { leds: @elliedee.leds }
   end
 
   private
