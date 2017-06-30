@@ -73,7 +73,13 @@ class DrawingsController < ApplicationController
 
   def elliedee
     @elliedee = Drawing.find_by_name('EllieDee')
-    render json: @elliedee.leds
+
+    @elliedee.leds.each_with_index { |led, i|
+      m = led.match /#(..)(..)(..)/
+      @elliedee.leds[i] = [ i, m[1].hex, m[2].hex, m[3].hex ]
+    }
+
+    render :json => @elliedee.leds
   end
 
   private

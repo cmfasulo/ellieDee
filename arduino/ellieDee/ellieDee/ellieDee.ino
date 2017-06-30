@@ -1,51 +1,25 @@
 #include <SoftwareSerial.h>
 #include <Adafruit_NeoPixel.h>
-#include <ESP8266wifi.h>
-
 
 // Pin Definitions
 #define sw_serial_rxPin 2
 #define sw_serial_txPin 3
-#define esp8266_resetPin 5
 #define Strip_Pin 6
 #define Status_Pin 9
-
-
-// Wifi Info
-const char ssid[] = "Bill Wi the Sci Fi Guy";
-const char pass[] = "nyetyson2020";
-
-// Remote site information
-const char http_site[] = "elliedee.herokuapp.com";
-const char http_port[] = "80";
-const char request[] = "GET /elliedee HTTP/1.1\r\nHost: elliedee.herokuapp.com\r\n\r\n";
 
 // Global Variables
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(144, Strip_Pin, NEO_GRB + NEO_KHZ800);
 SoftwareSerial swSerial(sw_serial_rxPin, sw_serial_txPin);// rx tx
-ESP8266wifi wifi(swSerial, swSerial, esp8266_resetPin, Serial);
+String inputString = "";
+boolean stringComplete = false;
 
-void setup(){
+void setup() {
   
-  swSerial.begin(9600);
-  Serial.begin(9600);
+  inputString.reserve(1445);
+  swSerial.begin(115200);
+  Serial.begin(115200);
   while (!Serial)
     ;
-
-  wifi.setTransportToTCP();
-  wifi.endSendWithNewline(true);
-  wifi.begin();
-
-  wifi.connectToAP(ssid, pass);
-  
-  if(wifi.isConnectedToAP()) {
-    Serial.println("Connected to access point!");
-  }
-  wifi.connectToServer(http_site, http_port);
-
-  if(wifi.isConnectedToServer()) {
-    Serial.println("Connected to server!");
-  }
 
 //  strip.begin();
 //  strip.show(); // Initialize all pixels to 'off'
@@ -60,22 +34,15 @@ void setup(){
 
 } // End setup()
 
-void loop(){
-  
-  if (!wifi.isStarted()) {
-    wifi.begin();
+void loop() {
+
+  if (stringComplete) {
+    Serial.println(inputString);
+    // clear the string:
+    inputString = "";
+    stringComplete = false;
   }
 
-  wifi.send(SERVER, request);
-
-  //Listen for incoming messages and echo back, will wait until a message is received, or max 6000ms..
-//  WifiMessage in = wifi.listenForIncomingMessage(1000);
-  WifiMessage in = wifi.getIncomingMessage();
-  if (in.hasData) {
-    setLeds(in);
-  }
-  
-  
 //  if (led_readBack == 200){ //led=200 -->reset entire matrix
 //    for (int i=0; i <= 143; i++){
 //      strip.setPixelColor(i, 255, 255, 255);
@@ -116,23 +83,17 @@ void loop(){
 //  }
 //}
 
-void setLeds(WifiMessage msg) {
-  // return buffer
-//  char espBuf[MSG_BUFFER_MAX];
-  // scanf holders
-//  int set;
-//  char str[1439];
-  Serial.print("message size: ");
-  Serial.println(sizeof(msg.message));
-  Serial.println("message: ");
-  Serial.println(msg.message);
-
-
-//  sscanf(msg.message,"[%s",str,&set);
-//  Serial.println("str: ");
-//  Serial.println(str);
-//  swSerial.println("set: ");
-//  swSerial.println(set);
-  
+void serialEvent() {
+  while (swSerial.available()) {
+    // get the new byte:
+    char inChar = (char)swSerial.read();
+    // add it to the inputString:
+    inputString += inChar;
+    // if the incoming character is a newline, set a flag
+    // so the main loop can do something about it:
+    if (inChar == '\n') {
+      stringComplete = true;
+    }
+  }
 }
 
