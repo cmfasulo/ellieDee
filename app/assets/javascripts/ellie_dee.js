@@ -1,16 +1,17 @@
 $(document).ready(function() {
   buildMatrix();
+  fetchDrawing($("#ellieDeeId").val().toString());
 
   $('input[id=currentColor]').minicolors();
 
   $(function () {
-    $('[data-toggle="popover"]').popover()
+    $('[data-toggle="popover"]').popover();
   });
 
   $(document).on('click', function (e) {
     $('[data-toggle="popover"],[data-original-title]').each(function () {
       if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-          (($(this).popover('hide').data('bs.popover')||{}).inState||{}).click = false
+          (($(this).popover('hide').data('bs.popover')||{}).inState||{}).click = false;
       }
     });
   });
@@ -46,7 +47,7 @@ $(document).ready(function() {
           console.log("EllieDee Failed to Update: " + error);
         }
       });
-    };
+    }
   });
 
   var timer;
@@ -101,7 +102,7 @@ $(document).ready(function() {
             success: function(data) {
               // console.log(saveDrawing + " Successfully Saved: " + data);
               console.log("Callback Array Length: " + data.leds.length);
-              $("#saveDrawing").popover('hide')
+              $("#saveDrawing").popover('hide');
               $("#tableBody").append(
                 '<tr><td class="col-md-8">' + data.name + '</td><td class="col-md-2 text-center"><i id="d' + data.id + '" class="fa fa-play-circle"></i></td><td class="col-md-2 text-center"><a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="/drawings/' + data.id + '" <i class="fa fa-trash"></i></a></td></tr>'
               );
@@ -110,11 +111,11 @@ $(document).ready(function() {
               console.log(saveDrawing + " Failed to Save: " + error);
               if (error === "Unprocessable Entity") {
                 $("#saveAlert").text("Uh oh, looks like you're already using this name. Pick a new name or try again after deleting the old one below!").attr("type", "text");
-              };
+              }
             }
           });
-        };
-      };
+        }
+      }
     });
   });
 
@@ -122,20 +123,7 @@ $(document).ready(function() {
     var drawingId = $(this).attr('id');
     drawingId = drawingId.slice(1, drawingId.length);
 
-    $.ajax({
-      dataType: 'json',
-      url: '/drawings/' + drawingId + '.json',
-      method: 'GET',
-      contentType: "application/json",
-      success: function(data) {
-        console.log("GET drawing was Successful. LEDs: " + data.leds);
-        console.log("LED Array Length: " + data.leds.length);
-        setColors(data.leds);
-      },
-      error: function(jqXHR, textStatus, error) {
-        console.log("GET drawing Failed: " + error);
-      }
-    });
+    fetchDrawing(drawingId);
   });
 
 });
@@ -144,16 +132,43 @@ $(document).ready(function() {
 function buildMatrix() {
   var matrixString = "";
   var ledNum = 143;
+  var iterator;
   for (var i = 11; i >= 0; i--) {
-    matrixString += "<tr id='r" + i + "'>" //creates opening tag and id for current row
-    for (var j = 11; j >= 0; j--) {
-      matrixString += "<td class='led' id='" + ledNum + "'><div></div></td>" //adds the current column to the string for the current row; moves onto the next column in the inner "for" loop
-      ledNum--;
+    matrixString += "<tr id='r" + i + "'>"; //creates opening tag and id for current row
+    if (i % 2 === 1 ) {
+      for (var j = 0; j <= 11; j++) {
+        matrixString += "<td class='led' id='" + ledNum + "'><div></div></td>"; //adds the current column to the string for the current row; moves onto the next column in the inner "for" loop
+        ledNum--;
+      }
+    } else {
+      var offset = ledNum - 11; //leds snake from row to row rather than going left to right every row
+      for (var j = 0; j <= 11; j++) {
+        matrixString += "<td class='led' id='" + offset + "'><div></div></td>"; //adds the current column to the string for the current row; moves onto the next column in the inner "for" loop
+        ledNum--;
+        offset++;
+      }
     }
+
     matrixString += "</tr>"; //adds a closing tag for the current row; moves onto the next row in the outer "for" loop
   }
   $("#ledMatrix").append(matrixString);
-  resetEllieDee();
+}
+
+function fetchDrawing(drawingId) {
+  $.ajax({
+    dataType: 'json',
+    url: '/drawings/' + drawingId + '.json',
+    method: 'GET',
+    contentType: "application/json",
+    success: function(data) {
+      console.log("GET drawing was Successful. LEDs: " + data.leds);
+      console.log("LED Array Length: " + data.leds.length);
+      setColors(data.leds);
+    },
+    error: function(jqXHR, textStatus, error) {
+      console.log("GET drawing Failed: " + error);
+    }
+  });
 }
 
 //Reset drawing to default/cleared state
@@ -183,7 +198,7 @@ function resetEllieDee() {
     });
   } else {
     setColors(blankArray);
-  };
+  }
 }
 
 //Iterate through the drawing to get the current state of all leds
@@ -197,7 +212,7 @@ function getColors() {
       colors.push("#000000");
     } else {
       colors.push(ledColor);
-    };
+    }
   }
   return colors;
 }
@@ -210,8 +225,8 @@ function setColors(array) {
       $(currentLed).css('backgroundColor', '#808080');
     } else {
       $(currentLed).css('backgroundColor', array[i].toString());
-    };
-  };
+    }
+  }
 }
 
 //Function to convert hex format to a rgb(a) color
