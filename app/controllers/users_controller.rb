@@ -36,6 +36,20 @@ class UsersController < ApplicationController
     end
   end
 
+  def add_role
+    @user = User.find(params[:id])
+    @user.add_role Role.find_by_name(params[:role]).name
+
+    redirect_to admin_path
+  end
+
+  def remove_role
+    @user = User.find(params[:id])
+    @user.remove_role Role.find_by_name(params[:role]).name
+
+    redirect_to admin_path
+  end
+
   private
 
     # Never trust parameters from the scary internet, only allow the white list through.

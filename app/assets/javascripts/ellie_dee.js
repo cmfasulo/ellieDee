@@ -1,6 +1,11 @@
 $(document).ready(function() {
+  var ellieDee = true;
   buildMatrix();
-  fetchDrawing($("#ellieDeeId").val().toString());
+  fetchDrawing($("#ellieDeeId").val());
+
+  setInterval(function() {
+    fetchDrawing($("#ellieDeeId").val(), true);
+  }, 1000);
 
   $('input[id=currentColor]').minicolors();
 
@@ -30,7 +35,7 @@ $(document).ready(function() {
     var currentColors = getColors();
     var userRole = $("#userRole").val();
 
-    if (userRole === 'admin' || userRole === 'ctrl') {
+    if (ellieDee && (userRole === 'admin' || userRole === 'ctrl')) {
       $.ajax({
         dataType: 'json',
         url: '/drawings/' + $("#ellieDeeId").val().toString() + '.json',
@@ -40,7 +45,6 @@ $(document).ready(function() {
           "leds": currentColors
         }),
         success: function(data) {
-          console.log("EllieDee Successfully Updated: " + JSON.stringify(data));
           setColors(data.leds);
         },
         error: function(jqXHR, textStatus, error) {
@@ -82,8 +86,6 @@ $(document).ready(function() {
       var saveName = $("#saveName").val();
       var saveLeds = getColors();
       var userRole = $("#userRole").val();
-      console.log("Save Colors Array Length: " + saveLeds.length);
-      console.log("User Role: " + userRole);
 
       if (saveName.toUpperCase() === 'ELLIEDEE') {
         $("#saveAlert").text("There can only be one EllieDee! Try a new name!").attr("type", "text");
@@ -100,8 +102,6 @@ $(document).ready(function() {
               "user_id": saveUserId
             }),
             success: function(data) {
-              // console.log(saveDrawing + " Successfully Saved: " + data);
-              console.log("Callback Array Length: " + data.leds.length);
               $("#saveDrawing").popover('hide');
               $("#tableBody").append(
                 '<tr><td class="col-md-8">' + data.name + '</td><td class="col-md-2 text-center"><i id="d' + data.id + '" class="fa fa-play-circle"></i></td><td class="col-md-2 text-center"><a data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="/drawings/' + data.id + '" <i class="fa fa-trash"></i></a></td></tr>'
@@ -154,21 +154,29 @@ function buildMatrix() {
   $("#ledMatrix").append(matrixString);
 }
 
-function fetchDrawing(drawingId) {
-  $.ajax({
-    dataType: 'json',
-    url: '/drawings/' + drawingId + '.json',
-    method: 'GET',
-    contentType: "application/json",
-    success: function(data) {
-      console.log("GET drawing was Successful. LEDs: " + data.leds);
-      console.log("LED Array Length: " + data.leds.length);
-      setColors(data.leds);
-    },
-    error: function(jqXHR, textStatus, error) {
-      console.log("GET drawing Failed: " + error);
-    }
-  });
+function fetchDrawing(drawingId, isInterval) {
+  if (!isInterval || (isInterval && ellieDee)) {
+    $.ajax({
+      dataType: 'json',
+      url: '/drawings/' + drawingId + '.json',
+      method: 'GET',
+      contentType: "application/json",
+      success: function(data) {
+        if (data.name !== 'EllieDee') {
+          ellieDee = false;
+          editMode(data.name);
+          connected(false);
+        } else {
+          var isConnected = (Date.now()/1000 - data.last_req) < 3;
+          connected(isConnected);
+        }
+        setColors(data.leds);
+      },
+      error: function(jqXHR, textStatus, error) {
+        console.log("GET drawing Failed: " + error);
+      }
+    });
+  }
 }
 
 //Reset drawing to default/cleared state
@@ -189,7 +197,6 @@ function resetEllieDee() {
         "leds": blankArray
       }),
       success: function(data) {
-        console.log("EllieDee Successfully Reset. LEDs: " + data.leds);
         setColors(data.leds);
       },
       error: function(jqXHR, textStatus, error) {
@@ -226,6 +233,62 @@ function setColors(array) {
     } else {
       $(currentLed).css('backgroundColor', array[i].toString());
     }
+  }
+}
+
+function editMode(drawingName) {
+  connected(false);
+  var userRole = $("#userRole").val();
+
+  var element = '<div id="editing"><i class="fa fa-exclamation-circle"></i> You are currently editing drawing: <strong>' + drawingName + '</strong>.<br>';
+
+  if (userRole === 'admin' || userRole === 'ctrl') {
+    element += '<button id="pushEllieDee" class="btn btn-primary">Push to EllieDee</button>';
+  }
+
+  element += '<button id="returnEllieDee" class="btn btn-primary">Return to EllieDee</button></div>';
+  $('#ellieDee').before(element);
+  $('#editing').addClass('editing');
+
+  $("#pushEllieDee").on("click", function() {
+    ellieDee = true;
+    var userRole = $("#userRole").val();
+    var currentColors = getColors();
+
+    if (ellieDee && (userRole === 'admin' || userRole === 'ctrl')) {
+      $.ajax({
+        dataType: 'json',
+        url: '/drawings/' + $("#ellieDeeId").val().toString() + '.json',
+        method: 'PUT',
+        contentType: "application/json",
+        data: JSON.stringify({
+          "leds": currentColors
+        }),
+        success: function(data) {
+          setColors(data.leds);
+        },
+        error: function(jqXHR, textStatus, error) {
+          console.log("EllieDee Failed to Update: " + error);
+        }
+      });
+    }
+    $('#editing').remove();
+  });
+
+  $("#returnEllieDee").on("click", function() {
+    ellieDee = true;
+    fetchDrawing($("#ellieDeeId").val().toString());
+    $('#editing').remove();
+  });
+}
+
+function connected(isConnected) {
+  if (isConnected) {
+    $('#connectionStatus').html('Online').css('color', 'lime');
+    $('#logoBackground').css('background-color', 'lime');
+  } else {
+    $('#connectionStatus').html('Offline').css('color', 'red');
+    $('#logoBackground').css('background-color', 'red');
   }
 }
 

@@ -1,6 +1,6 @@
 class DrawingsController < ApplicationController
   before_action :set_drawing, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:featured, :submissions, :elliedee]
+  before_action :authenticate_user!, except: [:featured, :submissions, :elliedee, :show]
   load_and_authorize_resource except: [:featured, :submissions, :elliedee]
 
   # GET /drawings
@@ -12,6 +12,14 @@ class DrawingsController < ApplicationController
   # GET /drawings/1
   # GET /drawings/1.json
   def show
+    if @drawing.name == 'EllieDee'
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render :json => JSON::parse(@drawing.to_json).merge("last_req" => $last_req).to_json }
+       end
+      # @drawing['last_req'] = $last_req
+      # render :json => Group.find(params[:id]), :methods => :message
+    end
   end
 
   # GET /drawings/new
@@ -78,6 +86,8 @@ class DrawingsController < ApplicationController
       m = led.match /#(..)(..)(..)/
       @elliedee.leds[i] = [ i, m[1].hex, m[2].hex, m[3].hex ]
     }
+
+    $last_req = Time.now.to_i
 
     render :json => { leds: @elliedee.leds }
   end

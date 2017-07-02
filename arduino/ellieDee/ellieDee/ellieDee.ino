@@ -1,101 +1,41 @@
 #include <SoftwareSerial.h>
-#include <Adafruit_NeoPixel.h>
-#include <ArduinoJson.h>
 
 // Pin Definitions
-#define sw_serial_rxPin 2
-#define sw_serial_txPin 3
-#define Strip_Pin 6
-#define Status_Pin 9
-
-// Global Variables
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(144, Strip_Pin, NEO_GRB + NEO_KHZ800);
-SoftwareSerial swSerial(sw_serial_rxPin, sw_serial_txPin);// rx tx
-String inputString = "";
-boolean stringComplete = false;
+int rxPin = 2;
+int redPin = 11;
+int greenPin = 10;
+int bluePin = 9;
+int connectStatus = 0;
+SoftwareSerial swSerial(rxPin, 3);// rx tx
 
 void setup() {
-  
-  inputString.reserve(200);
+
   swSerial.begin(115200);
-  Serial.begin(115200);
-
-  strip.begin();
-  strip.show(); // Initialize all pixels to 'off'
-
-  theaterChase(strip.Color(127, 127, 127), 50); // White
-  theaterChase(strip.Color(127, 0, 0), 50); // Red
-  theaterChase(strip.Color(0, 0, 127), 50); // Blue
-  strip.show();
-
-  strip.setPixelColor(144, 255, 255, 255);
-  strip.show();
+  pinMode(redPin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
+  pinMode(bluePin, OUTPUT);
+  setColor(255, 0, 0);  // red  
 
 } // End setup()
 
 void loop() {
-  
-  DynamicJsonBuffer jsonBuffer;
 
-  while (swSerial.available()) {
-    char inChar = (char)swSerial.read();
-    inputString += inChar;
+  while (swSerial.available() > 0) {
+    connectStatus = swSerial.parseInt();
 
-    if (inChar == '\n') {
-      stringComplete = true;
-    }
-
-    if (stringComplete) {
-//    Serial.println(inputString);
-      JsonArray& led = jsonBuffer.parseArray(inputString);
-
-      strip.setPixelColor(led[0], led[1], led[2], led[3], 255);
-      strip.show();
-      
-      inputString = "";
-      stringComplete = false;
+    if (connectStatus == 1) {
+      setColor(0, 255, 0);  // green
+    } else {
+      setColor(255, 0, 0);  // red
     }
   }
 
-  
-
-//  if (led_readBack == 200){ //led=200 -->reset entire matrix
-//    for (int i=0; i <= 143; i++){
-//      strip.setPixelColor(i, 255, 255, 255);
-//      strip.show();
-//    }
-//        
-//    delay(1000);
-//
-//    for (int i=0; i <= 143; i++){
-//      strip.setPixelColor(i, 0, 0, 0);
-//      strip.show();
-//    }
-//  }
-//    
-//  else {
-//    strip.setPixelColor(led_value, r_value, g_value, b_value, 255);
-//    strip.show();
-//  }
 
 } // End loop()
 
-
-//Theatre-style crawling lights
-void theaterChase(uint32_t c, uint8_t wait) {
-  for (int j=0; j<10; j++) {  //do 10 cycles of chasing
-    for (int q=0; q < 3; q++) {
-      for (int i=0; i < strip.numPixels(); i=i+3) {
-        strip.setPixelColor(i+q, c);    //turn every third pixel on
-      }
-      strip.show();
-
-      delay(wait);
-
-      for (int i=0; i < strip.numPixels(); i=i+3) {
-        strip.setPixelColor(i+q, 0);        //turn every third pixel off
-      }
-    }
-  }
+void setColor(int red, int green, int blue) {
+  analogWrite(redPin, red);
+  analogWrite(greenPin, green);
+  analogWrite(bluePin, blue);  
 }
 

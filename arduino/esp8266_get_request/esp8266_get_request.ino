@@ -13,18 +13,18 @@ const char* url = "http://elliedee.herokuapp.com/elliedee";
 void setup () {
 
   pinMode(Strip_Pin, OUTPUT);
-//  Serial.begin(115200);
+  Serial.begin(115200);
   WiFi.begin(ssid, password);
  
   while (WiFi.status() != WL_CONNECTED) {
  
-    delay(2000);
-    Serial.println("Connecting..");
+    delay(1000);
+    Serial.println(0);
  
   }
   
   delay(3000);
-  Serial.println("Connected");
+  Serial.println(1);
 
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
@@ -43,6 +43,7 @@ void loop() {
   DynamicJsonBuffer jsonBuffer;
  
   if (WiFi.status() == WL_CONNECTED) {
+    Serial.println(1);
     HTTPClient http;
  
     http.begin(url);
@@ -50,21 +51,26 @@ void loop() {
     int httpCode = http.GET();
  
     if (httpCode > 0) {
+      Serial.println(1);
       JsonObject& obj = jsonBuffer.parseObject(http.getString());
       int arraySize =  obj["leds"].size();
 
       if (!obj.success()) {
-        Serial.println("Error: parse failed");
+        Serial.println(0);
       }
 
       for (int i = 0; i< arraySize; i++) {
         strip.setPixelColor(obj["leds"][i][0].as<int>(), obj["leds"][i][1].as<int>(), obj["leds"][i][2].as<int>(), obj["leds"][i][3].as<int>(), 255);
       }
       strip.show();  
+    } else {
+      Serial.println(0);
     }
  
     http.end();   //Close connection
  
+  } else {
+    Serial.println(0);
   }
  
 //  delay(1000);    //Send a request every 5 seconds

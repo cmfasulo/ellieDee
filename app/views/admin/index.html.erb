@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-aqua">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-users"></i> Users</h3>
+            </div>
+            <div class="table-responsive">
+              <div id="users">
+                <table class="table table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th class="col-md-1 text-center">ID</th>
+                      <th class="col-md-1">Username</th>
+                      <th class="col-md-2">First Name</th>
+                      <th class="col-md-2">Last Name</th>
+                      <th class="col-md-2">Email</th>
+                      <th class="col-md-2">Current Roles</th>
+                      <th class="col-md-2">Add Role</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tableBody">
+                  <% @users.each do |user| %>
+                    <tr>
+                      <td class="col-md-1 text-center"><%= link_to "/users/#{user.id}" do %>
+                          <i class="fa fa-user"></i> <%= user.id %>
+                          <% end %>
+                      </td>
+                      <td class="col-md-1"><%= user.username %></td>
+                      <td class="col-md-2"><%= user.first_name %></td>
+                      <td class="col-md-2"><%= user.last_name %></td>
+                      <td class="col-md-2"><%= user.email %></td>
+                      <td class="col-md-2">
+                          <% user.roles.each_with_index do |role, index| %>
+                                <%= link_to "/users/#{user.id}/remove_role?role=#{role.name}", method: :put, data: { confirm: 'Are you sure?' } do %>
+                                    <i class="fa fa-trash"></i> <%= role.name %>
+                                <% end %>
+                              <% if index != user.roles.size - 1 %><br><% end %>
+                          <% end %>
+                      </td>
+                      <td class="col-md-2">
+                          <% @roles.each_with_index do |role, index| %>
+                                <% if !user.has_role? role.name %>
+                                    <%= link_to "/users/#{user.id}/add_role?role=#{role.name}", method: :put, data: { confirm: "Adding role: #{role.name} to #{user.username}." } do %>
+                                        <i class="fa fa-plus"></i> <%= role.name %>
+                                    <% end %>
+                                    <% if index != @roles.size - 1 %><br><% end %>
+                                <% end %>
+                          <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.row -->

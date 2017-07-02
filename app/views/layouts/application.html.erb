@@ -64,6 +64,14 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
+                    <% if !current_user.nil? && (current_user.has_role? :admin) %>
+                    <li id="nav-admin"
+                      <% if request.original_url.ends_with?('/admin') %>
+                      class="active"
+                      <% end %>>
+                      <a href=<%= "/admin" %>><i class="fa fa-fw fa-cogs"></i> Admin</a>
+                    </li>
+                    <% end %>
                     <li
                       <% if request.original_url.ends_with?('/') || request.original_url.ends_with?('/index') %>
                       class="active"
