@@ -1,7 +1,7 @@
 class DrawingsController < ApplicationController
   before_action :set_drawing, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:featured, :submissions, :elliedee, :show]
-  load_and_authorize_resource except: [:featured, :submissions, :elliedee]
+  before_action :authenticate_user!, except: [:featured, :submissions, :elliedee, :show, :update]
+  load_and_authorize_resource except: [:featured, :submissions, :elliedee, :update]
 
   # GET /drawings
   # GET /drawings.json

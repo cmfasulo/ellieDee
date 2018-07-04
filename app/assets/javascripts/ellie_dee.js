@@ -35,7 +35,8 @@ $(document).ready(function() {
     var currentColors = getColors();
     var userRole = $("#userRole").val();
 
-    if (ellieDee && (userRole === 'admin' || userRole === 'ctrl')) {
+    // if (ellieDee && (userRole === 'admin' || userRole === 'ctrl')) {
+      if (ellieDee) {
       $.ajax({
         dataType: 'json',
         url: '/drawings/' + $("#ellieDeeId").val().toString() + '.json',
