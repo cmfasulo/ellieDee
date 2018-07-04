@@ -85,10 +85,12 @@
                   </thead>
                   <tbody id="tableBody">
                       <% @drawings.each do |drawing| %>
-                        <tr>
-                          <td class="col-md-8"><%= drawing.name %></td>
-                          <td class="col-md-2 text-center"><i id="d<%= drawing.id %>" class="fa fa-play-circle"></i></td>
-                        </tr>
+                        <% if drawing.name != "EllieDee" %>
+                          <tr>
+                            <td class="col-md-8"><%= drawing.name %></td>
+                            <td class="col-md-2 text-center"><i id="d<%= drawing.id %>" class="fa fa-play-circle"></i></td>
+                          </tr>
+                        <% end %>
                       <% end %>
                   </tbody>
                 </table>
