@@ -240,12 +240,14 @@ function setColors(array) {
 function editMode(drawingName) {
   connected(false);
   var userRole = $("#userRole").val();
+  $('#editing').remove();
 
   var element = '<div id="editing"><i class="fa fa-exclamation-circle"></i> You are currently editing drawing: <strong>' + drawingName + '</strong>.<br>';
+  element += '<button id="pushEllieDee" class="btn btn-primary">Push to EllieDee</button>';
 
-  if (userRole === 'admin' || userRole === 'ctrl') {
-    element += '<button id="pushEllieDee" class="btn btn-primary">Push to EllieDee</button>';
-  }
+  // if (userRole === 'admin' || userRole === 'ctrl') {
+  //   element += '<button id="pushEllieDee" class="btn btn-primary">Push to EllieDee</button>';
+  // }
 
   element += '<button id="returnEllieDee" class="btn btn-primary">Return to EllieDee</button></div>';
   $('#ellieDee').before(element);
@@ -256,7 +258,8 @@ function editMode(drawingName) {
     var userRole = $("#userRole").val();
     var currentColors = getColors();
 
-    if (ellieDee && (userRole === 'admin' || userRole === 'ctrl')) {
+    // if (ellieDee && (userRole === 'admin' || userRole === 'ctrl')) {
+      if (ellieDee) {
       $.ajax({
         dataType: 'json',
         url: '/drawings/' + $("#ellieDeeId").val().toString() + '.json',
