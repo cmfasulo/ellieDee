@@ -81,23 +81,15 @@
                     <tr>
                       <th class="col-md-8">Name</th>
                       <th class="col-md-2 text-center">Load</th>
-                      <th class="col-md-2 text-center">Delete</th>
                     </tr>
                   </thead>
                   <tbody id="tableBody">
-                    <% if user_signed_in? %>
-                      <% current_user.drawings.each do |drawing| %>
+                      <% @drawings.each do |drawing| %>
                         <tr>
                           <td class="col-md-8"><%= drawing.name %></td>
                           <td class="col-md-2 text-center"><i id="d<%= drawing.id %>" class="fa fa-play-circle"></i></td>
-                          <td class="col-md-2 text-center">
-                            <%= link_to drawing, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                              <i class="fa fa-trash"></i>
-                            <% end %>
-                          </td>
                         </tr>
                       <% end %>
-                    <% end %>
                   </tbody>
                 </table>
               </div>
